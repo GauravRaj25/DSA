@@ -16,18 +16,37 @@ public:
 
     // }
 
-    int solveTab(vector<int>& nums, vector<int>& dp){
-        // converting base case into dp array 
-        int n = nums.size();
-        dp[n] = 0;
+    // int solveTab(vector<int>& nums, vector<int>& dp){
+    //     // converting base case into dp array 
+    //     int n = nums.size();
+    //     dp[n] = 0;
 
-        // run a loop from n to 0
+    //     // run a loop from n to 0
+    //     for(int i=n-1; i>=0; i--){
+    //         int include = nums[i] + dp[i+2];
+    //         int exclude = 0 + dp[i+1];
+    //         dp[i] = max(include, exclude);
+    //     }
+    //     return dp[0];
+    // }
+
+    int solveSpace(vector<int>& nums, vector<int>& dp){
+        int n = nums.size();
+        int curr;
+        int next1 = 0;
+        int next2 = 0;
+
         for(int i=n-1; i>=0; i--){
-            int include = nums[i] + dp[i+2];
-            int exclude = 0 + dp[i+1];
-            dp[i] = max(include, exclude);
+            int include = nums[i] + next2;
+            int exclude = 0 + next1;
+            int curr = max(include, exclude);
+
+            next2 = next1;
+            next1 = curr;
         }
-        return dp[0];
+        return next1;
+
+
     }
 
     int rob(vector<int>& nums) {
@@ -36,6 +55,7 @@ public:
         // int i = 0;
         // return solveMem(nums, i, dp);
 
-        return solveTab(nums, dp);
+        // return solveTab(nums, dp);
+        return solveSpace(nums, dp);
     }
 };
